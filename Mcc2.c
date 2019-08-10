@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<string.h>
 
+char *user_input;
+
 typedef enum {
 	TK_RESERVED,
 	TK_NUM,
@@ -97,10 +99,12 @@ int main(int argc, char **argv){
 		fprintf(stderr, "Incorrect number of arguments\n");
 		return 1; 
 	}
+	
+	user_input = argv[1];
 
-	token = tokenize(argv[1]);
+	token = tokenize(user_input);
 
-printf(".intel_syntax noprefix\n");
+	printf(".intel_syntax noprefix\n");
 	printf(".global main\n");
 	printf("main:\n");
 
