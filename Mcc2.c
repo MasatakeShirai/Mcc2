@@ -100,6 +100,25 @@ Token *tokenize(char *p){
 	return head.next;
 }
 
+
+typedef enum{
+	ND_ADD,
+	ND_SUB,
+	ND_MUL,
+	ND_DIV,
+	ND_NUM,
+}NodeKind;
+
+typedef struct Node Node;
+
+struct Node{
+	NodeKind kind;
+	Node *lhs;
+	Node *rhs;
+	int val;
+};
+
+
 int main(int argc, char **argv){
 	if(argc != 2){
 		fprintf(stderr, "Incorrect number of arguments\n");
