@@ -87,6 +87,16 @@ Token *tokenize(char *p){
 			cur = new_token(TK_RESERVED, cur, p++);
 			continue;
 		}
+		
+		if(*p == '*' || *p == '/'){
+			cur = new_token(TK_RESERVED, cur, p++);
+			continue;
+		}
+
+ 		if(*p == '(' || *p == ')'){
+			cur = new_token(TK_RESERVED, cur, p++);
+			continue;
+		}
 
 		if(isdigit(*p)){
 			cur = new_token(TK_NUM, cur, p);
@@ -198,7 +208,7 @@ void gen(Node *node){
 			break;
 		case ND_DIV:
 			printf("	cqo\n");
-			printf("	idev rdi\n");
+			printf("	idiv rdi\n");
 			break;
 	}
 
@@ -213,27 +223,16 @@ int main(int argc, char **argv){
 	}
 	
 	user_input = argv[1];
-
 	token = tokenize(user_input);
+	Node *node = expr();
 
 	printf(".intel_syntax noprefix\n");
 	printf(".global main\n");
 	printf("main:\n");
 
-	printf("	mov rax, %d\n", expect_number());
-
-	while(!at_eof()){
-		if(consume('+')){
-			printf("	add rax, %d\n", expect_number());
-			continue;
-		}
-
-		if(consume('-')){
-			printf("	sub rax, %d\n", expect_number());
-			continue;
-		}
-	}
-
+	gen(node);
+	
+	printf("	pop rax\n");
 	printf("	ret\n");
 	return 0;
 }
