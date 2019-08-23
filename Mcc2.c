@@ -136,7 +136,7 @@ Node *new_node_num(int val){
 
 Node *expr();
 Node *mul();
-Node *term();
+Node *primary();
 
 Node *expr(){
 	Node *node = mul();
@@ -152,19 +152,19 @@ Node *expr(){
 }
 
 Node *mul(){
-	Node *node = term();
+	Node *node = primary();
 
 	for(;;){
 		if(consume('*'))
-			node = new_node(ND_MUL, node, term());
+			node = new_node(ND_MUL, node, primary());
 		if(consume('/'))
-			node = new_node(ND_DIV, node, term());
+			node = new_node(ND_DIV, node, primary());
 		else
 			return node;
 	}
 }
 
-Node *term(){
+Node *primary(){
 	if(consume('(')){
 		Node *node = expr();
 		expect(')');
