@@ -21,6 +21,7 @@ struct Token{
 	Token *next;	//next token
 	int val;	//value
 	char *str;	//token string
+	int len;
 	};
 
 Token *token;
